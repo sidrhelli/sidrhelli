@@ -1,0 +1,23 @@
+pipeline {
+    agent any
+
+    stages {
+        stage('Build') {
+            steps {
+                echo 'Building..'
+            }
+        }
+        stage('Test') {
+            steps {
+                echo 'Testing..'
+            }
+        }
+        stage('Send E-mail') {
+            steps {
+                emailext body: 'Test Message',
+    subject: 'Test Subject',
+    to: 's.hellings.salt@gmail.com'
+            }
+        }
+    }
+}

@@ -1,4 +1,3 @@
-import background from './background.jpg';
 import './App.css';
 
 function App() {
