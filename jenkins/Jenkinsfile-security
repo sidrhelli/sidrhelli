@@ -14,7 +14,7 @@ pipeline {
 
             steps {
                 sh 'chmod +x jenkins/owasp-dependency-check.sh'
-                sh 'bash jenkins/owasp-dependency-check.sh'
+                sh 'bash owasp-dependency-check.sh'
             }
         }
     }
