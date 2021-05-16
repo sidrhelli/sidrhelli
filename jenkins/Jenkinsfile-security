@@ -12,10 +12,20 @@ pipeline {
         }
         stage('OWASP Dependency Check') {
 
-            steps {
-                sh 'chmod +x jenkins/owasp-dependency-check.sh'
-                sh 'bash jenkins/owasp-dependency-check.sh $JENKINS_HOME'
-            }
+            // steps {
+            //     sh 'chmod +x jenkins/owas-dependency-check.sh'
+            //     sh 'DC_DIRECTORY="$1/OWASP-Dependency-Check"'
+            //     sh 'echo $DC_DIRECTORY'
+            // }
         }
     }
+    post {
+        always {
+           emailext mimeType: 'text/html',
+           body: '${FILE, path="dependency-check-report.html"}',
+           subject: "OWASP dependency check report from : Jenkins Build ${currentBuild.currentResult}: Job ${env.JOB_NAME}",
+           to: 'sidrhelli@gmail.com'
+
+       }
+   }
 }
