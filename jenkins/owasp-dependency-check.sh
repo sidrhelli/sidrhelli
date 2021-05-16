@@ -1,7 +1,7 @@
 #!/bin/sh
-
+JENKINS_HOME=$1
 DC_VERSION="latest"
-DC_DIRECTORY=$HOME/OWASP-Dependency-Check
+DC_DIRECTORY="$1/OWASP-Dependency-Check"
 DC_PROJECT="dependency-check scan: $(pwd)"
 DATA_DIRECTORY="$DC_DIRECTORY/data"
 CACHE_DIRECTORY="$DC_DIRECTORY/data/cache"
@@ -23,10 +23,10 @@ docker run --rm \
     -u $(id -u ${USER}):$(id -g ${USER}) \
     --volume $(pwd):/src:z \
     --volume "$DATA_DIRECTORY":/usr/share/dependency-check/data:z \
-    --volume $(pwd)/odc-reports:/report:z \
+    --volume $(pwd)/security-reports:/report:z \
     owasp/dependency-check:$DC_VERSION \
     --scan /src \
-    --format "ALL" \
+    --format "HTML" \
     --project "$DC_PROJECT" \
     --out /report
     # Use suppression like this: (where /src == $pwd)

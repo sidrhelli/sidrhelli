@@ -1,23 +1,16 @@
 pipeline {
     agent any
-
+    
     stages {
-        stage('Build') {
+        stage('Ok') {
             steps {
-                echo 'Building..'
+                echo "Ok"
             }
         }
-        stage('Test') {
-            steps {
-                echo 'Testing..'
-            }
-        }
-        stage('Send E-mail') {
-            steps {
-                emailext body: 'Test Message',
-    subject: 'Test Subject',
-    to: 's.hellings.salt@gmail.com'
-            }
+    }
+    post {
+        always {
+            emailext body: 'A Test EMail', recipientProviders: [[$class: 'DevelopersRecipientProvider'], [$class: 'RequesterRecipientProvider']], subject: 'Test'
         }
     }
 }
