@@ -1,16 +1,21 @@
 pipeline {
+
     agent any
     
     stages {
-        stage('Ok') {
+
+        stage('Initialize') {
+
             steps {
-                echo "Ok"
+                echo "Preparing build..."
             }
         }
-    }
-    post {
-        always {
-            emailext body: 'A Test EMail', recipientProviders: [[$class: 'DevelopersRecipientProvider'], [$class: 'RequesterRecipientProvider']], subject: 'Test'
+        stage('OWASP Dependency Check') {
+
+            steps {
+                sh 'chmod +x jenkins/owasp-dependency-check.sh'
+                sh 'bash jenkins/owasp-dependency-check.sh'
+            }
         }
     }
 }
