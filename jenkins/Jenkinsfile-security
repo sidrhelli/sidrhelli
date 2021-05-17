@@ -10,14 +10,12 @@ pipeline {
                 echo "Preparing build..."
             }
         }
-        stage('OWASP Dependency Check') {
-
-            steps {
-                sh 'chmod +x jenkins/owas-dependency-check.sh'
-                sh 'DC_DIRECTORY="$1/OWASP-Dependency-Check"'
-                sh 'echo $DC_DIRECTORY'
-            }
-        }
+    stage ('OWASP Dependency Check') {
+      steps {
+       sh 'chmod +x jenkins/owasp-dependency-check.sh'
+       sh 'bash jenkins/owasp-dependency-check.sh $JOB_NAME'
+      }
+    } 
     }
     post {
         always {

@@ -1,9 +1,8 @@
 #!/bin/sh
-
-
+DC_PROJECT_NAME=$1
 DC_VERSION="latest"
-DC_DIRECTORY="$1/OWASP-Dependency-Check"
-DC_PROJECT="dependency-check scan: $(pwd)"
+DC_DIRECTORY=$HOME/OWASP-Dependency-Check
+DC_PROJECT="$1 scan: $(pwd)"
 DATA_DIRECTORY="$DC_DIRECTORY/data"
 CACHE_DIRECTORY="$DC_DIRECTORY/data/cache"
 
@@ -24,10 +23,13 @@ docker run --rm \
     -u $(id -u ${USER}):$(id -g ${USER}) \
     --volume $(pwd):/src:z \
     --volume "$DATA_DIRECTORY":/usr/share/dependency-check/data:z \
-    --volume $(pwd)/security-reports:/report:z \
+    --volume $(pwd)/jenkins/security-test-reports/"$DC_PROJECT_NAME-reports":/report:z \
     owasp/dependency-check:$DC_VERSION \
     --scan /src \
     --format "HTML" \
+    --format "JSON" \
+    --format "XML" \
+    --failOnCVSS 7 \
     --project "$DC_PROJECT" \
     --out /report
     # Use suppression like this: (where /src == $pwd)
